@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct PinBIApp: App {
@@ -13,5 +14,6 @@ struct PinBIApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [Document.self, MistakeList.self])
     }
 }

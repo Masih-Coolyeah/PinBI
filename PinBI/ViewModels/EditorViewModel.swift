@@ -2,17 +2,12 @@
 //  EditorViewModel.swift
 //  PinBI
 //
-//  Created by Syuhada Rantisi on 05/08/24.
+//  Created by Syuhada Rantisi on 06/08/24.
 //
 
-import SwiftUI
+import Foundation
+import SwiftData
 
-struct EditorViewModel: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
-
-#Preview {
-    EditorViewModel()
+class EditorViewModel {
+    
 }
