@@ -5,13 +5,12 @@
 //  Created by Syuhada Rantisi on 05/08/24.
 //
 
-
 import SwiftUI
 import SwiftData
 
 struct EditorView: View {
     @Environment(\.modelContext) private var context
-//    @State private var selectedTag: String? = "Dokumen Baru"
+    @State private var selectedTag: String? = "Dokumen Baru"
     @State var title: String = "Dokumen Baru"
     @State var content: String = "Ini adalah isi dari dokumen baru"
     
@@ -21,7 +20,7 @@ struct EditorView: View {
 
     var body: some View {
         NavigationSplitView {
-            List(selection: $selectedDocument) {
+            List(selection: $selectedTag) {
                 ForEach(documents) { document in
                     Text(document.title)
                         .tag(document as Document?)
@@ -35,7 +34,7 @@ struct EditorView: View {
             }
         } detail: {
             if let selectedDocument = selectedDocument {
-                EditorDetailView(content: $content, document: selectedDocument)
+                EditorDetailView(document: selectedDocument)
             } else {
                 Text("No document selected")
                     .foregroundColor(.gray)

@@ -28,3 +28,15 @@ class Document: ObservableObject, Identifiable {
     }
 }
 
+class DocumentList: ObservableObject, Identifiable {
+    var list: [Document]
+    var date: Date
+    
+    init(list: [Document], date: Date) {
+        self.list = list
+        self.date = date
+    }
+    
+    
+}
+
