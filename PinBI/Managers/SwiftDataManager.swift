@@ -6,30 +6,36 @@
 //
 
 import Foundation
-//import SwiftData
+import SwiftData
 //import SwiftUI
 
-//class SwiftDataManager: DocumentServiceProtocol {
+class SwiftDataManager: DocumentServiceProtocol {
     
 //    @Query private var documents: [Document]
-//    
-//    func getAllDocuments() -> [Document] {
-//        return documents
-//    }
+//    @Environment(\.modelContext) private var context
+    var documents:[Document]
     
-//    func getDocumentByID(id: UUID) -> Document {
-//        
-//    }
+    init(){
+        self.documents = [Document]()
+    }
     
-//    func saveDocument(document: Document) {
-//        
-//    }
-//    
-//    func updateDocument(id: UUID, document: Document) {
-//        
-//    }
-//    
-//    func deleteDocument(id: UUID) {
-//
-//    }
-//}
+    func getAllDocuments() -> [Document] {
+        return self.documents
+    }
+    
+    func getDocumentByID(id: UUID) -> Document {
+        return self.documents[0]
+    }
+    
+    func saveDocument(document: Document) {
+        
+    }
+    
+    func updateDocument(id: UUID, document: Document) {
+        
+    }
+    
+    func deleteDocument(id: UUID) {
+
+    }
+}

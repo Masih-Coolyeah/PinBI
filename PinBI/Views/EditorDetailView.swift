@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditorDetailView: View {
     @Environment(\.modelContext) private var context
-    @Binding var content: String
     @ObservedObject var document: Document
     @FocusState private var contentEditorInFocus: Bool
 
@@ -24,11 +24,13 @@ struct EditorDetailView: View {
                         try? context.save()
                     }
                     
-                TextEditor(text: $content)
+                TextEditor(text: $document.correctText)
                     .scrollDisabled(true)
                     .font(.title3)
                     .focused($contentEditorInFocus)
-                    
+                    .onChange(of: document.correctText) {
+                        try? context.save()
+                    }
 
             }
             .padding(10)
