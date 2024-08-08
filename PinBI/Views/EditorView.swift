@@ -10,30 +10,61 @@ import SwiftData
 
 struct EditorView: View {
     @Environment(\.modelContext) private var context
-    @State private var selectedTag: String? = "Dokumen Baru"
-    @State var title: String = "Dokumen Baru"
-    @State var content: String = "Ini adalah isi dari dokumen baru"
+    @State private var selectedTag: Document?
     
     @Query var documents: [Document]
     
-    @State private var selectedDocument: Document?
-
+    @State private var editingDocument: Document?
+    @State private var renamingDocument: Document?
+    @State private var newTitle: String = ""
+    
     var body: some View {
         NavigationSplitView {
             List(selection: $selectedTag) {
                 ForEach(documents) { document in
-                    Text(document.title)
-                        .tag(document as Document?)
-                        .foregroundColor(.gray)
-                        .contextMenu() {
-                            Button("Delete") {
-                                context.delete(document)
+                    if renamingDocument == document {
+                        TextField("Enter new name", text: $newTitle, onCommit: {
+                            document.title = newTitle
+                            try? context.save()
+                            renamingDocument = nil
+                        })
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(2)
+                    } else {
+                        Text(document.title)
+                            .tag(document)
+                            .foregroundColor(.gray)
+                            .contextMenu {
+                                Button("Hapus") {
+                                    context.delete(document)
+                                    if selectedTag == document {
+                                        selectedTag = nil
+                                    }
+                                }
+                                Button("Ganti Nama") {
+                                    renamingDocument = document
+                                    newTitle = document.title
+                                }
                             }
-                        }
+                    }
+//                    Text(document.title)
+//                        .tag(document)
+//                        .foregroundColor(.gray)
+//                        .contextMenu {
+//                            Button("Hapus") {
+//                                context.delete(document)
+//                                if selectedTag == document {
+//                                    selectedTag = nil
+//                                }
+//                            }
+//                            Button("Ganti Nama") {
+//                                print("Update Document")
+//                            }
+//                        }
                 }
             }
         } detail: {
-            if let selectedDocument = selectedDocument {
+            if let selectedDocument = selectedTag {
                 EditorDetailView(document: selectedDocument)
             } else {
                 Text("No document selected")
@@ -48,15 +79,16 @@ struct EditorView: View {
                 }
             }
         }
-
     }
     
     private func addNewDocument() {
-        let newDocument = Document(title: "\(title) \(documents.count+1)", date: Date(), mistakeList: [], correctText: "", listText: [])
+        let newDocument = Document(title: "Dokumen Baru \(documents.count + 1)", date: Date(), mistakeList: [], correctText: "", listText: [])
         context.insert(newDocument)
-        selectedDocument = newDocument
+        selectedTag = newDocument
     }
+    
 }
+
 
 #Preview {
     ContentView()
